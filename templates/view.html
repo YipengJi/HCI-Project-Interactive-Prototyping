@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Language" content="en">
+
+        <title>HCI Project Interactive Prototyping - Sentiment Analysis</title>
+
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.min.css">
+
+        <style>
+            @import url(http://fonts.googleapis.com/css?family=Exo:100,200,400);
+            @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);
+            
+        .body {
+            position: fixed;
+            overflow-y: scroll;
+            width: 100%;
+            top: -20px;
+            left: -20px;
+            right: -40px;
+            bottom: -40px;
+            width: auto;
+            height: auto;
+            background-image: url(http://www.5wconsulting.com/uploads//over-inflating-your-opinion.gif);
+            background-size: cover;
+            opacity: 0.1;
+        }
+        .header {
+            position: absolute;
+            top: calc(15% - 35px);
+            left: calc(20% - 155px);
+        }
+        .header div {
+            float: left;
+            color: rgb(0, 0, 0);
+            font-family: 'Exo', sans-serif;
+            font-size: 50px;
+            font-weight: 600;
+            width: 95%;
+        }
+        .header div span {
+            color: rgb(0, 0, 0)!important;
+        }
+
+        .header op {
+            float: left;
+            color: #8b5600;
+            font-family: 'Exo', sans-serif;
+            font-size: 15px;
+            font-weight: 300;
+            width: 95%;
+        }
+
+        .header interface {
+            width: 100%;
+        }
+
+        .header chartc {
+            min-height: 600px;
+            max-height: 800px;
+            overflow-y: scroll;
+        }
+
+        .header input[type=text] {
+            width: 700px;
+            height: 40px;
+            background: transparent;
+            border: 2px solid rgba(0, 0, 0, 0.6);
+            border-radius: 2px;
+            color: rgb(0, 0, 0);
+            font-family: 'Exo', sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            padding: 4px;
+        }
+
+        .header input[type=text]:focus {
+            outline: none;
+            border: 2px solid rgba(0, 0, 0, 0.9);
+        }
+
+        .header input[type=start] {
+            width: 400px;
+            height: 35px;
+            background: rgb(255, 255, 255);
+            border: 2px solid #8b5600;
+            cursor: pointer;
+            border-radius: 2px;
+            color: #8b5600;
+            font-family: 'Exo', sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .header input[type=start]:hover {
+            opacity: 0.5;
+        }
+        .header input[type=start]:active {
+            opacity: 0.6;
+        }
+        .header input[type=start]:focus {
+            outline: none;
+        }
+
+        ::-webkit-input-placeholder {
+            color: rgba(0, 0, 0, 0.6);
+        }
+        ::-moz-input-placeholder {
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        .dropbtn {
+            background-color: rgb(128, 0, 0);
+            color: white;
+            font-family: 'Exo', sans-serif;
+            padding: 15px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .dropbtn:hover,
+        .dropbtn:focus {
+            background-color: #8b5600;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 130px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: #8b5600;
+            font-family: 'Exo', sans-serif;
+            padding: 16px 18px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #ddd
+        }
+        .show {
+            display: block;
+        }
+        .chart svg {
+            height: 600px;
+            width: 100%;
+        }
+        </style>
+    </head>
+    <body oncontextmenu="return false">
+    
+        <div class="body"></div>
+        <div class="grad"></div>
+        <div class="header">
+        <div class="container interface">
+            <span>HCI Interactive Prototyping - Sentiment Analysis Visualization</>
+        
+            <p>
+                <input type="text" placeholder="What do you want to search for on Twitter? : ) Type In and Get Started!" id="phrase" name="phrase"/>
+            </p>
+            <p>
+                <input type="start" id="begin" class="btn btn-primary" value="Start Analyzing"/>
+            </p>
+
+            <p id="tweets_chart" class="lead"></p>
+        
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="chart" id="chart">
+                        <svg></svg>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <op id="tweets_text" class="lead chartc"></op>
+                </div>
+            </div>
+        </div>
+        </div>
+        <br>
+            <div class="dropdown">
+                <button onclick="dd()" class="dropbtn">Menu</button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="/">Home</a>
+                    <a href="https://github.com/YipengJi/HCI-Project-Interactive-Prototyping">Project Github</a>
+                </div>
+            </div>
+            <script>
+                function dd() {
+                    document.getElementById("myDropdown").classList.toggle("show");
+                }
+                window.onclick = function (event) {
+                    if (!event.target.matches('.dropbtn')) {
+                        var dropdowns = document.getElementsByClassName("dropdown-content");
+                        var i;
+                        for (i = 0; i < dropdowns.length; i++) {
+                            var openDropdown = dropdowns[i];
+                            if (openDropdown.classList.contains('show')) {
+                                openDropdown.classList.remove('show');
+                            }
+                        }
+                    }
+                }
+            </script>
+            
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.min.js"></script>
+        <script>
+            var data = [{key: 'Negative Sentiment', values: []}, 
+            {key: 'Positive Sentiment', values: []}];
+            shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'];
+
+            function reload() {
+                var chart = nv.models.scatterChart()
+                    .pointRange([3000, 3000])
+                    .color(d3.scale.ordinal().range(["#2ca02c", "#CD5555"]).range())
+                    //.showControls(true)
+                    //.clipEdge(flase)
+                    //.tooltips(true) 
+                    //.showValues(true)
+                    .interactive(true)
+                    .useVoronoi(true) 
+                    .showLegend(true)
+                    .showDistX(true)    
+                    .showDistY(true);    
+
+                chart.xAxis.axisLabel('X-value in Vector Space');
+                chart.yAxis.axisLabel('Y-value in Vector Space');
+                chart.xAxis.tickFormat(d3.format('.02f'));
+                chart.yAxis.tickFormat(d3.format('.02f'));
+
+                var t = d3.transition()
+                    .duration(0);
+
+                d3.select('#chart svg')
+                    .datum(data)
+                    .text('')
+                    .transition().duration(500)
+                    .call(chart);
+
+                nv.utils.windowResize(chart.update);
+
+                return chart;
+            }
+
+            function twitter() {
+                phrase = $('#phrase').val();
+                url = encodeURI('/twitter/' + phrase);
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    success: function(data, status, request) {
+                        $('#tweets_chart').html(data);
+                    },
+                    error: function() {
+                        alert('ERROR');
+                    }
+                });
+            }
+
+            $(function() {
+                var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+                socket.on('tweet', function(msg) {
+                    $('#phrase').val(phrase);
+
+                    $('#begin').val('Analyzing in progress ...');
+
+                    $('#tweets_chart').html(
+                        'Hurrah! We are connected! Searching ... (currently at Tweet ID ' + msg.id + ')...');
+
+                    sentiment = parseInt(msg.sentiment);
+                    x = parseFloat(msg.x);
+                    y = parseFloat(msg.y);
+                    data[sentiment].values.push({
+                        id: msg.id,
+                        x: x,
+                        y: y,
+                        size: 2000,
+                        shape: shapes[msg.id % 6]});
+                    reload();
+
+                    $('#tweets_text').append(
+                        '<br>' + $('<div/>').text('Tweet ID: ' + msg.id + ' Location in Chart: ' + '(' + x.toFixed(2) + ', ' + y.toFixed(2) + ') : ' + msg.text).html());
+                });
+
+                socket.on('complete', function(msg) {
+                    $('#phrase').val(phrase);
+
+                    $('#begin').val('Completed : ) Refresh to Start Again!');
+
+                    $('#tweets_chart').html(msg.data);
+                });
+
+                $('#begin').click(twitter);
+                nv.addGraph(reload());
+            });
+        </script>
+
+    </body>
+</html>
