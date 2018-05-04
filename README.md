@@ -6,7 +6,8 @@ EPFL CS486 Human Computer Interaaction Project: AI is Beautiful - Design Brief I
 
 ### Prerequisites
 
-See Dependencies (Build With)
+* [Python 3.x](https://www.python.org/)
+* Others - See Dependencies (Build With).
 
 ### Installing
 
@@ -20,51 +21,53 @@ And repeat "pip install" for all other dependencies.
 
 ## Running
 
-* Step 1 - Unzip HCI Project-Sentiment Analysis Dataset.csv file and put it in "datas" directory.
+* Step 1 - Unzip "HCI Project-Sentiment Analysis Dataset.csv" file and put it into "datas" directory.
 
 * Step 2 - Open Termial Window 1, Move into "datas" diractory from the terminal.
 
-* Step 3 - Run "project.py" and wait for it to be done (instructions show on terminal logs, only need to run one time for analyzing training dataset).
+* Step 3 - Run "project.py" and wait for it to be done (instructions show on terminal logs, only needed to run once for analyzing training dataset).
 
 ```
 python project.py
 ```
-* Step 4 - Open Termial Window 2, Move into the top directory and run a Redis server (wait for the connection to set up and keep the window open)
+
+* Step 4 - Open Termial Window 2, Move into the top directory and run a Redis server (wait for the connection to establish and keep the window open)
 
 ```
 bash redis.sh
 ```
 
-* Step 5 - Open Termial Window 3, Move into the top directory and run a Celery worker (wait for the connection to set up and keep the window open)
+* Step 5 - Open Termial Window 3, Move into the top directory and run a Celery worker (wait for the connection to establish and keep the window open)
 
 ```
 celery worker -A app.celery --loglevel=info
 ```
+
 * Step 6 - Open Termial Window 4, Move into the top directory and start the application (wait for the Debugger to show up)
 
 ```
 python app.py
 ```
 
-* Step 7 - Open [Link](http://127.0.0.1:5000/) in your favorate brower
+* Step 7 - Open [Sentiment Analysis Visualization](http://127.0.0.1:5000/) in your favorate browser
 
 * Final Step - Play with the visualization : )
 
 ## Built With
 
 * [Python 3.6.5](https://www.python.org/) - Language used
-* Front-End
+### Front-End
 * [Bootstrap](https://getbootstrap.com/)  
 * [JQuery](http://jquery.com/) - Web
 * [Flask 1.0.2](http://flask.pocoo.org/docs/1.0/installation/)  
 * [Socket.IO](https://socket.io/) 
 * [flask-socketio](https://flask-socketio.readthedocs.io/en/latest/) - Events
 * [NVD3](http://nvd3.org/) - Visualization
-* Back-End (stream Twitter)
+### Back-End (stream Twitter)
 * [Redis](https://redis.io/) - Database
 * [Celery](http://www.celeryproject.org/) - Task Queues
 * [Python-Pattern](https://github.com/clips/pattern) 
-* Algorithms
+### Algorithms
 * [scikit-learn](http://scikit-learn.org/stable/) - Classifications
 * [gensim](https://radimrehurek.com/gensim/) - Word2Vec models 
 
