@@ -29,7 +29,7 @@
 
 # The __main__ method illustrates by tokenizing a few examples.
 
-# I've also included a Tokenizer method tokenize_random_tweet(). If the
+# Included a Tokenizer method tokenize_random_tweet(). If the
 # twitter library is installed (http://code.google.com/p/python-twitter/)
 # and Twitter is cooperating, then it should tokenize a random
 # English-language tweet.
