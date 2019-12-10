@@ -1,6 +1,6 @@
 # HCI-Project-Interactive-Prototyping
 
-EPFL CS486 Human Computer Interaction Project: AI is Beautiful - Design Brief III
+EPFL CS486 Human Computer Interaction Project: AI is Beautiful
 
 ## Getting Started
 
